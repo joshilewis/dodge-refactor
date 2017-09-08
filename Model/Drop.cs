@@ -9,16 +9,14 @@ namespace Model
 {
     public class Drop : GameObject
     {
-        private const int Distance = 5;
-
         public Drop(int width, int height, int startingX, int startingY) 
             : base(width, height, startingX, startingY)
         {
         }
 
-        public void MoveDown()
+        public void MoveDown(int distance)
         {
-            y += Distance;
+            y += distance;
         }
 
         public virtual bool IntersectsWith(GameObject other)

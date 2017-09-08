@@ -10,6 +10,7 @@ namespace Model
     public class Game
     {
         private const int TotalNumberOfDrops = 20;
+        private const int MaxFallDistance = 10;
 
         private readonly Player player;
         private readonly List<Drop> drops;
@@ -26,12 +27,9 @@ namespace Model
             random=new Random();
         }
 
-        private bool gameInProgress;
-
         public void StartGame()
         {
             GenerateDrops(TotalNumberOfDrops);
-            gameInProgress = true;
         }
 
         private void GenerateDrops(int numberOfDropsToGenerate)
@@ -45,9 +43,7 @@ namespace Model
 
         public void Tick()
         {
-            if (!gameInProgress) return;
-            
-            drops.ForEach(x => x.MoveDown());
+            drops.ForEach(x => x.MoveDown(random.Next(MaxFallDistance)));
 
             if (drops.Any(x => x.IntersectsWith(player)))
             {
@@ -60,8 +56,10 @@ namespace Model
 
         private void GameOver()
         {
-            gameInProgress = false;
             gameOver.Invoke();
         }
+
+        public Rectangle PlayerBounds => player.Bounds;
+        public IEnumerable<Rectangle> DropBounds => drops.Select(x => x.Bounds);
     }
 }
