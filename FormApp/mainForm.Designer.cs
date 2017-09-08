@@ -34,14 +34,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 499);
+            this.ClientSize = new System.Drawing.Size(584, 361);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(600, 400);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "RainDodge";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RainDodge_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RainDodge_KeyUp);
             this.ResumeLayout(false);
 
         }

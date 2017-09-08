@@ -22,7 +22,7 @@ namespace Model
         {
             this.gameOver = gameOver;
             this.boardSize = boardSize;
-            player = new Player(10, 10, boardSize.Width / 2, boardSize.Height - 10);
+            player = new Player(10, 10, boardSize.Width / 2, boardSize.Height - 50);
             drops = new List<Drop>(TotalNumberOfDrops);
             random=new Random();
         }
@@ -59,7 +59,24 @@ namespace Model
             gameOver.Invoke();
         }
 
-        public Rectangle PlayerBounds => player.Bounds;
-        public IEnumerable<Rectangle> DropBounds => drops.Select(x => x.Bounds);
+        public Rectangle PlayerBounds
+        {
+            get { return player.Bounds; }
+        }
+
+        public IEnumerable<Rectangle> DropBounds
+        {
+            get { return drops.Select(x => x.Bounds); }
+        }
+
+        public void MovePlayerRight()
+        {
+            player.MoveRight();
+        }
+        public void MovePlayerLeft()
+        {
+            player.MoveLeft();
+        }
+
     }
 }

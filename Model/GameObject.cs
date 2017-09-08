@@ -27,7 +27,13 @@ namespace Model
             y = startingY;
         }
 
-        public Rectangle Bounds => new Rectangle(x, y, size.Width, size.Width);
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(x, y, size.Width, size.Width);
+            }
+        } 
 
     }
 
