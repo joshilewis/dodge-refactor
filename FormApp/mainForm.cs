@@ -15,7 +15,8 @@ namespace FormApp
     public partial class RainDodge : Form
     {
         private readonly Game game;
-        private bool gameRunning = false;
+        private bool gameRunning;
+        private bool gameHasEnded;
 
         public RainDodge()
         {
@@ -27,11 +28,8 @@ namespace FormApp
         private void GameOver()
         {
             gameRunning = false;
-            var formGraphics = CreateGraphics();
-            formGraphics.Clear(Color.White);
-            formGraphics.DrawString("Game Over :(", new Font("Arial", 40), Brushes.Black, Width / 2, Height / 2);
-            formGraphics.Dispose();
-
+            gameHasEnded = true;
+            lblGameOver.Visible = true;
         }
 
         private void RainDodge_KeyDown(object sender, KeyEventArgs e)
@@ -40,7 +38,7 @@ namespace FormApp
             switch (e.KeyCode)
             {
                 case Keys.Space:
-                    if (!gameRunning)
+                    if (!gameHasEnded)
                         RunGame();
                     break;
                 case Keys.Left:
@@ -54,6 +52,7 @@ namespace FormApp
 
         private void RunGame()
         {
+            lblSpaceToStart.Visible = false;
             game.StartGame();
             gameRunning = true;
             while (gameRunning)
@@ -65,13 +64,22 @@ namespace FormApp
             }
         }
 
-        private void DrawComponents()
+        private void DoWithGraphics(Action<Graphics> action)
         {
             var formGraphics = CreateGraphics();
-            formGraphics.Clear(Color.White);
-            DrawPlayer(formGraphics);
-            DrawDrops(formGraphics);
+            action(formGraphics);
             formGraphics.Dispose();
+        }
+
+        private void DrawComponents()
+        {
+            DoWithGraphics(x =>
+            {
+                x.Clear(Color.White);
+                DrawPlayer(x);
+                DrawDrops(x);
+
+            });
         }
 
         private void DrawPlayer(Graphics formGraphics)
@@ -89,24 +97,6 @@ namespace FormApp
                 formGraphics.FillRectangle(blueBrush, dropBound);
             }
             blueBrush.Dispose();
-        }
-
-        private void RainDodge_KeyUp(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Space:
-                    if (!gameRunning)
-                        RunGame();
-                    break;
-                case Keys.Left:
-                    game.MovePlayerLeft();
-                    break;
-                case Keys.Right:
-                    game.MovePlayerRight();
-                    break;
-            }
-
         }
     }
 }
